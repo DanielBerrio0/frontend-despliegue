@@ -35,9 +35,9 @@ railway up
 
 ### 3. Configuración automática
 Railway detectará automáticamente:
-- ✅ `railway.toml` - Configuración del deploy
-- ✅ `.python-version` - Versión de Python (3.11)
-- ✅ Comando de inicio: `python3 -m http.server 8080`
+- ✅ `package.json` - Dependencias y scripts de Node.js
+- ✅ `server.js` - Servidor HTTP simple
+- ✅ Comando de inicio: `node server.js`
 
 ### 4. Obtener URL pública
 Después del deploy, Railway te dará una URL como:
@@ -61,17 +61,16 @@ https://frontend-despliegue-production.up.railway.app
 ### railway.toml
 ```toml
 [build]
-builder = "NIXPACKS"
 
 [deploy]
-startCommand = "python3 -m http.server 8080"
+startCommand = "node server.js"
 healthcheckPath = "/herramienta.html"
 healthcheckTimeout = 100
 ```
 
 ### Puerto
 Railway asigna automáticamente el puerto a través de la variable `$PORT`.
-Usamos el puerto 8080 por defecto.
+El servidor Node.js detecta y usa esta variable automáticamente.
 
 ## 🧪 Testing
 

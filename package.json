@@ -1,0 +1,15 @@
+{
+  "name": "frontend-despliegue",
+  "version": "1.0.0",
+  "description": "Frontend para herramienta de despliegue ISO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["iso", "frontend", "railway"],
+  "author": "DanielBerrio0",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -6,7 +6,8 @@
 
 📂 Archivos de configuración creados:
    ├── railway.toml        → Configuración de deploy
-   ├── .python-version     → Python 3.11
+   ├── package.json        → Configuración Node.js
+   ├── server.js           → Servidor HTTP simple
    ├── .railwayignore      → Archivos a excluir
    └── RAILWAY-DEPLOY.md   → Documentación completa
 
@@ -66,9 +67,9 @@
 🔧 CONFIGURACIÓN AUTOMÁTICA
 
 Railway detectará:
-   ✓ Puerto: 8080 (configurado en railway.toml)
-   ✓ Python: 3.11 (especificado en .python-version)
-   ✓ Start: python3 -m http.server 8080
+   ✓ Puerto: Variable $PORT de Railway
+   ✓ Node.js: Detectado automáticamente desde package.json
+   ✓ Start: node server.js
    ✓ Health check: /herramienta.html
 
 ═══════════════════════════════════════════════════════════════════
