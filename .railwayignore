@@ -1,0 +1,26 @@
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Docs (opcional - comentar si quieres incluirlos)
+# CHANGES.md
+# DEPLOYMENT.md
+# QUICKSTART.md
+
+# Scripts locales
+start-dev.sh
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# OS
+.DS_Store
+Thumbs.db

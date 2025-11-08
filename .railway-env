@@ -1,0 +1,13 @@
+# Railway Frontend Deployment
+
+## Variables de entorno (Railway Dashboard)
+
+No se requieren variables de entorno especiales para este proyecto.
+
+## Configuración
+
+El proyecto usa Python 3.11 para servir archivos estáticos en el puerto 8080.
+
+## Health Check
+
+Railway verificará la salud del servicio accediendo a `/herramienta.html`
