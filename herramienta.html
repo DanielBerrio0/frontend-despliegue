@@ -858,7 +858,7 @@ function mostrarDashboard27001() {
         <!-- Botones para cambiar entre 9001 y 27001 -->
         <div class="text-center my-4">
           <div class="btn-group">
-            <button class="btn btn-outline-secondary" onclick="mostrarDashboard()">ISO 9001</button>
+            <button class="btn btn-secondary" onclick="mostrarDashboard()">ISO 9001</button>
             <button class="btn btn-primary" onclick="mostrarDashboard27001()">ISO 27001</button>
           </div>
         </div>
@@ -867,6 +867,7 @@ function mostrarDashboard27001() {
         <div class="text-center">
           <button class="btn btn-success me-2" onclick="mostrarChecklist27001()">Ver Checklist Auditor</button>
           <button class="btn btn-warning me-2" onclick="mostrarEvidencias()">Ver Evidencias</button>
+          <button class="btn btn-secondary" onclick="mostrarNormas()">Volver</button>
         </div>
       </div>
 
@@ -1010,14 +1011,15 @@ function mostrarDashboard() {
         <div class="text-center my-4">
           <div class="btn-group">
             <button class="btn btn-primary" onclick="mostrarResponsables()">ISO 9001</button>
-            <button class="btn btn-outline-secondary" onclick="mostrarDashboard27001()">ISO 27001</button>
+            <button class="btn btn-secondary" onclick="mostrarDashboard27001()">ISO 27001</button>
           </div>
         </div>
 
         <div class="text-center">
           <button class="btn btn-success me-2" onclick="mostrarChecklistAuditor()">Ir a Checklist Auditor</button>
           <button class="btn btn-info me-2" onclick="mostrarEvidenciasImplementador()">Gestión documental (Implementador)</button>
-          <button class="btn btn-warning" onclick="mostrarCapacitacionEvidencias()">Evidencias (Capacitador)</button>
+          <button class="btn btn-warning me-2" onclick="mostrarCapacitacionEvidencias()">Evidencias (Capacitador)</button>
+          <button class="btn btn-secondary" onclick="mostrarNormas()">Volver</button>
         </div>
       </div>
 
@@ -1482,7 +1484,7 @@ function mostrarIntroVideoCapacitador() {
             <span id="btnTexto">Continuar</span>
             <span id="btnIcono" class="ms-2">🔒</span>
           </button>
-          <button class="btn btn-outline-secondary" onclick="mostrarCapacitador()">Volver</button>
+          <button class="btn btn-secondary" onclick="mostrarCapacitador()">Volver</button>
         </div>
 
         <div class="text-center mt-4 small text-muted autor">Diseñado por RPM</div>
