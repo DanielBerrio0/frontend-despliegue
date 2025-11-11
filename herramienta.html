@@ -1462,9 +1462,13 @@ function mostrarIntroVideoCapacitador() {
                 🔗 Ver en YouTube
               </a>
             </p>
+            <div class="alert alert-info mb-3">
+              <small>⏱️ Por favor, ve el video completo para habilitar el botón "Continuar"</small>
+            </div>
             <div class="ratio ratio-16x9">
               <iframe
-                src="https://www.youtube.com/embed/tsajVWg7JC0"
+                id="videoCapacitador"
+                src="https://www.youtube.com/embed/tsajVWg7JC0?enablejsapi=1"
                 title="Video de capacitación"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
@@ -1474,7 +1478,10 @@ function mostrarIntroVideoCapacitador() {
         </div>
 
         <div class="text-center d-flex justify-content-center gap-2">
-          <button class="btn btn-primary" id="btnContinuarCap">Continuar</button>
+          <button class="btn btn-primary" id="btnContinuarCap" disabled>
+            <span id="btnTexto">Continuar</span>
+            <span id="btnIcono" class="ms-2">🔒</span>
+          </button>
           <button class="btn btn-outline-secondary" onclick="mostrarCapacitador()">Volver</button>
         </div>
 
@@ -1484,10 +1491,105 @@ function mostrarIntroVideoCapacitador() {
     </div>
   `;
 
+  const btnContinuar = document.getElementById("btnContinuarCap");
+  const btnIcono = document.getElementById("btnIcono");
+  let videoTerminado = false;
+  let player;
+
+  // Verificar si ya vio el video anteriormente
+  if (sessionStorage.getItem("cap_video_visto") === "1") {
+    habilitarBoton();
+  } else {
+    // Cargar API de YouTube IFrame si no está cargada
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    // Función que se llama cuando la API está lista
+    window.onYouTubeIframeAPIReady = function() {
+      try {
+        player = new YT.Player('videoCapacitador', {
+          events: {
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      } catch (error) {
+        console.error("Error al crear el reproductor:", error);
+      }
+    };
+
+    // Si la API ya está cargada, crear el reproductor directamente
+    if (window.YT && window.YT.Player) {
+      try {
+        player = new YT.Player('videoCapacitador', {
+          events: {
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      } catch (error) {
+        console.error("Error al crear el reproductor:", error);
+      }
+    }
+
+    // Detectar cuando el video termina o progresa
+    function onPlayerStateChange(event) {
+      // YT.PlayerState.ENDED = 0
+      if (event.data === YT.PlayerState.ENDED) {
+        habilitarBoton();
+      }
+      
+      // Mostrar progreso mientras se reproduce (YT.PlayerState.PLAYING = 1)
+      if (event.data === YT.PlayerState.PLAYING && !videoTerminado) {
+        const checkInterval = setInterval(() => {
+          try {
+            if (player && player.getDuration && player.getCurrentTime) {
+              const duracion = player.getDuration();
+              const actual = player.getCurrentTime();
+              const porcentaje = Math.floor((actual / duracion) * 100);
+              
+              if (btnIcono && porcentaje > 0) {
+                btnIcono.textContent = `${porcentaje}%`;
+              }
+              
+              // Si llega al 95% (casi al final), habilitar el botón
+              if (porcentaje >= 95 && !videoTerminado) {
+                clearInterval(checkInterval);
+                habilitarBoton();
+              }
+            }
+          } catch (error) {
+            console.error("Error al obtener tiempo del video:", error);
+            clearInterval(checkInterval);
+          }
+        }, 1000);
+        
+        // Guardar el intervalo para poder limpiarlo
+        player.checkInterval = checkInterval;
+      }
+      
+      // Pausar o detener el intervalo
+      if ((event.data === YT.PlayerState.PAUSED || 
+           event.data === YT.PlayerState.ENDED) && 
+          player && player.checkInterval) {
+        clearInterval(player.checkInterval);
+      }
+    }
+  }
+
+  function habilitarBoton() {
+    videoTerminado = true;
+    btnContinuar.disabled = false;
+    btnContinuar.classList.remove('btn-primary');
+    btnContinuar.classList.add('btn-success');
+    btnIcono.textContent = "✅";
+    sessionStorage.setItem("cap_video_visto", "1");
+  }
+
   // Al pulsar continuar, muestra el gestor de documentos
-  document.getElementById("btnContinuarCap").addEventListener("click", () => {
-    // Si quieres que no vuelva a mostrar el video, descomenta la siguiente línea:
-    // sessionStorage.setItem("cap_video_visto", "1");
+  btnContinuar.addEventListener("click", () => {
     mostrarCapacitacionEvidencias();
   });
 }
